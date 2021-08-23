@@ -1,16 +1,5 @@
-# AVL tree implementation in Python
-
-
+from nodo import TreeNode
 import sys
-
-# Cria a classe do Nodo
-class TreeNode(object):
-    def __init__(self, chave):
-        self.chave = chave
-        self.left = None
-        self.right = None
-        self.height = 1 #Altura do nodo em relação a raiz(1)
-
 #Classe da arvore, onde vao ser feitas as operacoes
 class AVLTree(object):
 
@@ -54,10 +43,10 @@ class AVLTree(object):
 
         return raiz
 
-    # Function to delete a node
+    # Funcao para deletar um nodo da arvore
     def delete_node(self, raiz, chave):
 
-        # Find the node to be deleted and remove it
+        # Realiza uma busca do nodo para deletar e remover da arvore
         if not raiz:
             return raiz
         elif chave < raiz.chave:
@@ -162,15 +151,3 @@ class AVLTree(object):
             print(currPtr.chave)
             self.printHelper(currPtr.left, indent, False)
             self.printHelper(currPtr.right, indent, True)
-
-
-myTree = AVLTree()
-raiz = None
-nums = [33, 13, 52, 9, 21, 61, 8, 11]
-for num in nums:
-    raiz = myTree.insert_node(raiz, num)
-myTree.printHelper(raiz, "", True)
-chave = 13
-raiz = myTree.delete_node(raiz, chave)
-print("After Deletion: ")
-myTree.printHelper(raiz, "", True)
