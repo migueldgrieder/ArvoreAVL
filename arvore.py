@@ -44,16 +44,17 @@ class AVLTree(object):
         return raiz
 
     # Funcao para deletar um nodo da arvore
-    def delete_node(self, raiz, chave):
+    def delete_node(self, raiz, chave): 
 
         # Realiza uma busca do nodo para deletar e remover da arvore
-        if not raiz:
+
+        if not raiz: # Caso seja o primeiro nodo da arvore
             return raiz
-        elif chave < raiz.chave:
+        elif chave < raiz.chave: # Verifica se o nodo é menor do que a raiz esquerda, e caso seja a deleta
             raiz.left = self.delete_node(raiz.left, chave)
-        elif chave > raiz.chave:
+        elif chave > raiz.chave: # Verifica se o nodo é maior do que a raiz direita, e caso seja a deleta
             raiz.right = self.delete_node(raiz.right, chave)
-        else:
+        else: 
             if raiz.left is None:
                 temp = raiz.right
                 raiz = None
@@ -66,31 +67,31 @@ class AVLTree(object):
             raiz.chave = temp.chave
             raiz.right = self.delete_node(raiz.right,
                                           temp.chave)
-        if raiz is None:
+        if raiz is None: # Caso nao exista uma raiz
             return raiz
 
-        # Update the balance factor of nodes
+        # Determina o fator de balanceamento da arvore, verificando se esta balanceada, utilizando-se da altura para tal 
         raiz.height = 1 + max(self.getHeight(raiz.left),
                               self.getHeight(raiz.right))
 
         balanceFactor = self.getBalance(raiz)
 
-        # Balance the tree
-        if balanceFactor > 1:
+        # Apos determinado o fator de balanceamento, ira realizar o balanceamento caso necessario avaliando-se o resultado
+        if balanceFactor > 1: # Caso o fator de balanceamento seja maior do que 1 ira rotacionar a raiz para a direita
             if self.getBalance(raiz.left) >= 0:
                 return self.rightRotate(raiz)
             else:
                 raiz.left = self.leftRotate(raiz.left)
                 return self.rightRotate(raiz)
-        if balanceFactor < -1:
+        if balanceFactor < -1: # Caso o fator de balanceamento seja menor do que 1 ira rotacionar a raiz para a esquerda
             if self.getBalance(raiz.right) <= 0:
                 return self.leftRotate(raiz)
             else:
                 raiz.right = self.rightRotate(raiz.right)
                 return self.leftRotate(raiz)
-        return raiz
+        return raiz # Por fim retorna a raiz, apos o delete e balanceamento caso necessario
 
-    # Function to perform left rotation
+    # Funcao encarregada por rotacionar pela esquerda da arvore
     def leftRotate(self, z):
         y = z.right
         T2 = y.left
@@ -102,7 +103,7 @@ class AVLTree(object):
                            self.getHeight(y.right))
         return y
 
-    # Function to perform right rotation
+    # Funcao encarregada por rotacionar pela direita da arvore
     def rightRotate(self, z):
         y = z.left
         T3 = y.right
@@ -114,13 +115,13 @@ class AVLTree(object):
                            self.getHeight(y.right))
         return y
 
-    # Get the height of the node
+    # Funcao encarregada por determinar a altura na avore
     def getHeight(self, raiz):
         if not raiz:
             return 0
         return raiz.height
 
-    # Get balance factore of the node
+    # Funcao encarragada por determinar o fator de balanceamento
     def getBalance(self, raiz):
         if not raiz:
             return 0
@@ -138,7 +139,7 @@ class AVLTree(object):
         self.preOrder(raiz.left)
         self.preOrder(raiz.right)
 
-    # Print the tree
+    # Printa a arvore
     def printHelper(self, currPtr, indent, last):
         if currPtr != None:
             sys.stdout.write(indent)
