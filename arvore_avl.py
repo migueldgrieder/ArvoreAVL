@@ -11,7 +11,7 @@ class ArvoreAVL(object):
         else:
             return self._busca(valor,self.raiz)  # Caso exista um nodo, será realizada a busca de fato
 
-    def _busca(self,valor,nodo): # Método responsável pela busca de um nodo
+    def _busca(self,valor,nodo): # Método responsável pela busca de um nodo de fato
         if nodo is None:
             return None
         elif valor<nodo.valor:
@@ -19,47 +19,47 @@ class ArvoreAVL(object):
         elif valor>nodo.valor:
             return self._busca(valor,self.direita)
         else:
-            return nodo
+            return nodo # Por fim retorna o nodo com o elemento(valor) buscado, caso exista
 
-    def buscaMin(self):
+    def buscaMin(self): # Busca o nodo com o menor valor na arvore
         if self.raiz is None:
             return None
         else:
             return self._buscaMin(self.raiz)
 
-    def _buscaMin(self,nodo):
-        if nodo.esquerda:
+    def _buscaMin(self,nodo): # Realiza de fato a busca pelo nodo com o menor valor na arvore
+        if nodo.esquerda: # Funciona parecido com um  while, ira executar a busca até que nao haja um nodo menor conectado ao atual da busca
             return self._buscaMin(nodo.esquerda)
         else:
-            return nodo
+            return nodo # Por fim retorna o menor nodo
 
-    def buscaMax(self):
-        if self.raiz is None:
+    def buscaMax(self): # Busca o nodo com maior valor na arvore
+        if self.raiz is None: 
             return None
         else:
             return self._buscaMax(self.raiz)
 
-    def _buscaMax(self,nodo):
-        if nodo.direita:
+    def _buscaMax(self,nodo): # Realiza de fato a busca pelo nodo com o maior valor na arvore
+        if nodo.direita: # Funciona parecido com while, executa ate que nao haja um nodo maior conectado ao atual
             return self._buscaMax(nodo.direita)
         else:
-            return nodo
+            return nodo # Por fim retorna o maior nodo
 
-    def tamanho(self,nodo):
+    def tamanho(self,nodo): # Responsavel por retornar o tamanho de um nodo
         if nodo is None:
             return -1
         else:
             return nodo.tamanho
     
-    def rotacao_esquerda_simples(self,nodo):
-        k1=nodo.esquerda
+    def rotacao_esquerda_simples(self,nodo): # Responsavel por realizar a rotacao simples sentido horario
+        k1=nodo.esquerda 
         nodo.esquerda=k1.direita
-        k1.direita=nodo
+        k1.direita=nodo 
         nodo.tamanho=max(self.tamanho(nodo.direita),self.tamanho(nodo.esquerda))+1
         k1.tamanho=max(self.tamanho(k1.esquerda),nodo.tamanho)+1
         return k1
 
-    def rotacao_direita_simples(self,nodo):
+    def rotacao_direita_simples(self,nodo): # Responsavel por realizar a rotacao simples sentido anti-horario
         k1=nodo.direita
         nodo.direita=k1.esquerda
         k1.esquerda=nodo
@@ -67,21 +67,21 @@ class ArvoreAVL(object):
         k1.tamanho=max(self.tamanho(k1.direita),nodo.tamanho)+1
         return k1
 
-    def rotacao_esquerda_dupla(self,nodo):
+    def rotacao_esquerda_dupla(self,nodo): # Responsavel por realizar a rotacao dupla sentido horario
         nodo.esquerda=self.rotacao_direita_simples(nodo.esquerda)
         return self.rotacao_esquerda_simples(nodo)
 
-    def rotacao_direita_dupla(self,nodo):
+    def rotacao_direita_dupla(self,nodo): # Responsavel por realizar a rotacao dupla sentido anti-horario
         nodo.direita=self.rotacao_esquerda_simples(nodo.direita)
         return self.rotacao_direita_simples(nodo)
 
-    def adicionar(self,valor):
-        if not self.raiz:
+    def adicionar(self,valor): # Realiza a inclusao de novos nodos na arvore
+        if not self.raiz: # Caso a arvore nao tenha nodos
             self.raiz= Nodo(valor)
         else:
             self.raiz=self._adicionar(valor,self.raiz)
             
-    def _adicionar(self,valor,nodo):
+    def _adicionar(self,valor,nodo): # Responsavel de fato pela inclusao, já com a raiz como parametro
         if nodo is None:
             nodo = Nodo(valor)
             
@@ -105,11 +105,11 @@ class ArvoreAVL(object):
         nodo.tamanho=max(self.tamanho(nodo.direita),self.tamanho(nodo.esquerda))+1
         return nodo
         
-    def deletar(self,valor):
+    def deletar(self,valor): # Responsavel por deletar um nodo da arvore
         self.raiz=self.remover(valor,self.raiz)
 
-    def remover(self,valor,nodo):
-        if nodo is None:
+    def remover(self,valor,nodo): # Responsavel de fato pela remocao de um nodo na arvore
+        if nodo is None: # Caso a arvore nao tenha nodos
             print("Erro!\nO nodo inserido nao existe na arvore!")
 
         elif valor<nodo.valor:
