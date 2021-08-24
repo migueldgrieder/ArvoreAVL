@@ -1,150 +1,150 @@
-from nodo import Node
+from nodo import Nodo
 
-class AVLTree(object):
+class ArvoreAVL(object):
 
     def __init__(self):
-        self.root=None
+        self.raiz = None
 
-    def find(self,key):
-        if self.root is None:
+    def busca(self,valor): # Busca um nodo com o valor inserido
+        if self.raiz is None: # Caso nao haja nenhum nodo na arvore
             return None
         else:
-            return self._find(key,self.root)
+            return self._busca(valor,self.raiz)  # Caso exista um nodo, será realizada a busca de fato
 
-    def _find(self,key,node):
-        if node is None:
+    def _busca(self,valor,nodo): # Método responsável pela busca de um nodo
+        if nodo is None:
             return None
-        elif key<node.key:
-            return self._find(key,self.left)
-        elif key>node.key:
-            return self._find(key,self.right)
+        elif valor<nodo.valor:
+            return self._busca(valor,self.esquerda)
+        elif valor>nodo.valor:
+            return self._busca(valor,self.direita)
         else:
-            return node
+            return nodo
 
-    def findMin(self):
-        if self.root is None:
-            return None
-        else:
-            return self._findMin(self.root)
-
-    def _findMin(self,node):
-        if node.left:
-            return self._findMin(node.left)
-        else:
-            return node
-
-    def findMax(self):
-        if self.root is None:
+    def buscaMin(self):
+        if self.raiz is None:
             return None
         else:
-            return self._findMax(self.root)
+            return self._buscaMin(self.raiz)
 
-    def _findMax(self,node):
-        if node.right:
-            return self._findMax(node.right)
+    def _buscaMin(self,nodo):
+        if nodo.esquerda:
+            return self._buscaMin(nodo.esquerda)
         else:
-            return node
+            return nodo
 
-    def height(self,node):
-        if node is None:
+    def buscaMax(self):
+        if self.raiz is None:
+            return None
+        else:
+            return self._buscaMax(self.raiz)
+
+    def _buscaMax(self,nodo):
+        if nodo.direita:
+            return self._buscaMax(nodo.direita)
+        else:
+            return nodo
+
+    def tamanho(self,nodo):
+        if nodo is None:
             return -1
         else:
-            return node.height
+            return nodo.tamanho
     
-    def singleLeftRotate(self,node):
-        k1=node.left
-        node.left=k1.right
-        k1.right=node
-        node.height=max(self.height(node.right),self.height(node.left))+1
-        k1.height=max(self.height(k1.left),node.height)+1
+    def rotacao_esquerda_simples(self,nodo):
+        k1=nodo.esquerda
+        nodo.esquerda=k1.direita
+        k1.direita=nodo
+        nodo.tamanho=max(self.tamanho(nodo.direita),self.tamanho(nodo.esquerda))+1
+        k1.tamanho=max(self.tamanho(k1.esquerda),nodo.tamanho)+1
         return k1
 
-    def singleRightRotate(self,node):
-        k1=node.right
-        node.right=k1.left
-        k1.left=node
-        node.height=max(self.height(node.right),self.height(node.left))+1
-        k1.height=max(self.height(k1.right),node.height)+1
+    def rotacao_direita_simples(self,nodo):
+        k1=nodo.direita
+        nodo.direita=k1.esquerda
+        k1.esquerda=nodo
+        nodo.tamanho=max(self.tamanho(nodo.direita),self.tamanho(nodo.esquerda))+1
+        k1.tamanho=max(self.tamanho(k1.direita),nodo.tamanho)+1
         return k1
 
-    def doubleLeftRotate(self,node):
-        node.left=self.singleRightRotate(node.left)
-        return self.singleLeftRotate(node)
+    def rotacao_esquerda_dupla(self,nodo):
+        nodo.esquerda=self.rotacao_direita_simples(nodo.esquerda)
+        return self.rotacao_esquerda_simples(nodo)
 
-    def doubleRightRotate(self,node):
-        node.right=self.singleLeftRotate(node.right)
-        return self.singleRightRotate(node)
+    def rotacao_direita_dupla(self,nodo):
+        nodo.direita=self.rotacao_esquerda_simples(nodo.direita)
+        return self.rotacao_direita_simples(nodo)
 
-    def put(self,key):
-        if not self.root:
-            self.root=Node(key)
+    def adicionar(self,valor):
+        if not self.raiz:
+            self.raiz= Nodo(valor)
         else:
-            self.root=self._put(key,self.root)
+            self.raiz=self._adicionar(valor,self.raiz)
             
-    def _put(self,key,node):
-        if node is None:
-            node=Node(key)
+    def _adicionar(self,valor,nodo):
+        if nodo is None:
+            nodo = Nodo(valor)
             
-        elif key<node.key:
-            node.left=self._put(key,node.left)
-            if (self.height(node.left)-self.height(node.right))==2:
-                if key<node.left.key:
-                    node=self.singleLeftRotate(node)
+        elif valor<nodo.valor:
+            nodo.esquerda=self._adicionar(valor,nodo.esquerda)
+            if (self.tamanho(nodo.esquerda)-self.tamanho(nodo.direita))==2:
+                if valor<nodo.esquerda.valor:
+                    nodo=self.rotacao_esquerda_simples(nodo)
                 else:
-                    node=self.doubleLeftRotate(node)
+                    nodo=self.rotacao_esquerda_dupla(nodo)
             
-        elif key>node.key:
-            node.right=self._put(key,node.right)
-            if (self.height(node.right)-self.height(node.left))==2:
-                if key<node.right.key:
-                    node=self.doubleRightRotate(node)
+        elif valor>nodo.valor:
+            nodo.direita=self._adicionar(valor,nodo.direita)
+            if (self.tamanho(nodo.direita)-self.tamanho(nodo.esquerda))==2:
+                if valor<nodo.direita.valor:
+                    nodo=self.rotacao_direita_dupla(nodo)
                 else:
-                    node=self.singleRightRotate(node)
+                    nodo=self.rotacao_direita_simples(nodo)
         
         
-        node.height=max(self.height(node.right),self.height(node.left))+1
-        return node
+        nodo.tamanho=max(self.tamanho(nodo.direita),self.tamanho(nodo.esquerda))+1
+        return nodo
         
-    def delete(self,key):
-        self.root=self.remove(key,self.root)
+    def deletar(self,valor):
+        self.raiz=self.remover(valor,self.raiz)
 
-    def remove(self,key,node):
-        if node is None:
-            raise KeyError("Error,key not in tree")
+    def remover(self,valor,nodo):
+        if nodo is None:
+            print("Erro!\nO nodo inserido nao existe na arvore!")
 
-        elif key<node.key:
-            node.left=self.remove(key,node.left)
-            if (self.height(node.right)-self.height(node.left))==2:
-                if self.height(node.right.right)>=self.height(node.right.left):
-                    node=self.singleRightRotate(node)
+        elif valor<nodo.valor:
+            nodo.esquerda=self.remover(valor,nodo.esquerda)
+            if (self.tamanho(nodo.direita)-self.tamanho(nodo.esquerda))==2:
+                if self.tamanho(nodo.direita.direita)>=self.tamanho(nodo.direita.esquerda):
+                    nodo=self.rotacao_direita_simples(nodo)
                 else:
-                    node=self.doubleRightRotate(node)
-            node.height=max(self.height(node.left),self.height(node.right))+1
+                    nodo=self.rotacao_direita_dupla(nodo)
+            nodo.tamanho=max(self.tamanho(nodo.esquerda),self.tamanho(nodo.direita))+1
             
                 
-        elif key>node.key:
-            node.right=self.remove(key,node.right)
-            if (self.height(node.left)-self.height(node.right))==2:
-                if self.height(node.left.left)>=self.height(node.left.right):
-                    node=self.singleLeftRotate(node)
+        elif valor>nodo.valor:
+            nodo.direita=self.remover(valor,nodo.direita)
+            if (self.tamanho(nodo.esquerda)-self.tamanho(nodo.direita))==2:
+                if self.tamanho(nodo.esquerda.esquerda)>=self.tamanho(nodo.esquerda.direita):
+                    nodo=self.rotacao_esquerda_simples(nodo)
                 else:
-                    node=self.doubleLeftRotate(node)
-            node.height=max(self.height(node.left),self.height(node.right))+1
+                    nodo=self.rotacao_esquerda_dupla(nodo)
+            nodo.tamanho=max(self.tamanho(nodo.esquerda),self.tamanho(nodo.direita))+1
         
-        elif node.left and node.right:
-            if node.left.height<=node.right.height:
-                minNode=self._findMin(node.right)
-                node.key=minNode.key
-                node.right=self.remove(node.key,node.right)
+        elif nodo.esquerda and nodo.direita:
+            if nodo.esquerda.tamanho<=nodo.direita.tamanho:
+                minnodo=self._buscaMin(nodo.direita)
+                nodo.valor=minnodo.valor
+                nodo.direita=self.remover(nodo.valor,nodo.direita)
             else:
-                maxNode=self._findMax(node.left)
-                node.key=maxNode.key
-                node.left=self.remove(node.key,node.left)
-            node.height=max(self.height(node.left),self.height(node.right))+1
+                maxnodo=self._buscaMax(nodo.esquerda)
+                nodo.valor=maxnodo.valor
+                nodo.esquerda=self.remover(nodo.valor,nodo.esquerda)
+            nodo.tamanho=max(self.tamanho(nodo.esquerda),self.tamanho(nodo.direita))+1
         else:
-            if node.right:
-                node=node.right
+            if nodo.direita:
+                nodo=nodo.direita
             else:
-                node=node.left
+                nodo=nodo.esquerda
         
-        return node
+        return nodo
