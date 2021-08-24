@@ -1,49 +1,47 @@
 from nodo import Nodo
 
-class ArvoreAVL(object):
+class ArvoreAVL(object): # Classe principal da arvore, que gerencia a operacao entre es nodos
 
-    def __init__(self):
+    def __init__(self): 
         self.raiz = None
 
-    def busca(self,valor): # Busca um nodo com o valor inserido
-        if self.raiz is None: # Caso nao haja nenhum nodo na arvore
+
+
+
+    def busca(self,valor): # Método recursivo, responsável pela busca de um nodo de fato
+        if self.raiz is None:  #Verifica se a raiz da arvore e none
             return None
         else:
-            return self._busca(valor,self.raiz)  # Caso exista um nodo, será realizada a busca de fato
+            nodo = self.raiz
+            if nodo is None: # Retorna none se nao encontrar o nodo desejado(chegar a uma ponta)
+                return None
+            elif valor < nodo.valor:
+                return self._busca(valor,self.esquerda)
+            elif valor > nodo.valor:
+                return self._busca(valor,self.direita)
+            else: 
+                return nodo # Por fim retorna o nodo com o elemento(valor) buscado, caso exista
 
-    def _busca(self,valor,nodo): # Método responsável pela busca de um nodo de fato
-        if nodo is None:
-            return None
-        elif valor<nodo.valor:
-            return self._busca(valor,self.esquerda)
-        elif valor>nodo.valor:
-            return self._busca(valor,self.direita)
-        else:
-            return nodo # Por fim retorna o nodo com o elemento(valor) buscado, caso exista
-
-    def buscaMin(self): # Busca o nodo com o menor valor na arvore
+    def buscaPonta(self, lado): # Realiza a busca pelo nodo com o menor ou maior valor na arvore
         if self.raiz is None:
             return None
-        else:
-            return self._buscaMin(self.raiz)
+        else: 
+            nodo = self.raiz
+            if lado == -1: #lado como -1 sera o minimo valor(para esquerda)
+                while lado ==-1: 
+                    if nodo.esquerda:
+                        nodo = nodo.esquerda              
+                    else:
+                        lado == 0
+                        return nodo # Por fim retorna o menor nodo
 
-    def _buscaMin(self,nodo): # Realiza de fato a busca pelo nodo com o menor valor na arvore
-        if nodo.esquerda: # Funciona parecido com um  while, ira executar a busca até que nao haja um nodo menor conectado ao atual da busca
-            return self._buscaMin(nodo.esquerda)
-        else:
-            return nodo # Por fim retorna o menor nodo
-
-    def buscaMax(self): # Busca o nodo com maior valor na arvore
-        if self.raiz is None: 
-            return None
-        else:
-            return self._buscaMax(self.raiz)
-
-    def _buscaMax(self,nodo): # Realiza de fato a busca pelo nodo com o maior valor na arvore
-        if nodo.direita: # Funciona parecido com while, executa ate que nao haja um nodo maior conectado ao atual
-            return self._buscaMax(nodo.direita)
-        else:
-            return nodo # Por fim retorna o maior nodo
+            if lado == 1: #lado como 1 sera o maior valor(para direita)
+                while lado == 1:
+                    if nodo.direita:
+                        nodo = nodo.direita
+                    else:
+                        lado == 0
+                        return nodo # Por fim retorna o maior nodo
 
     def tamanho(self,nodo): # Responsavel por retornar o tamanho de um nodo
         if nodo is None:
@@ -133,11 +131,11 @@ class ArvoreAVL(object):
         
         elif nodo.esquerda and nodo.direita:
             if nodo.esquerda.tamanho<=nodo.direita.tamanho:
-                minnodo=self._buscaMin(nodo.direita)
+                minnodo=self._buscaPonta(nodo.direita, -1)
                 nodo.valor=minnodo.valor
                 nodo.direita=self.remover(nodo.valor,nodo.direita)
             else:
-                maxnodo=self._buscaMax(nodo.esquerda)
+                maxnodo=self._buscaPonta(nodo.esquerda, 1)
                 nodo.valor=maxnodo.valor
                 nodo.esquerda=self.remover(nodo.valor,nodo.esquerda)
             nodo.tamanho=max(self.tamanho(nodo.esquerda),self.tamanho(nodo.direita))+1

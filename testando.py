@@ -14,6 +14,6 @@ print(arvore.raiz.direita.valor)
 arvore.adicionar(3)
 print(arvore.raiz.esquerda.esquerda.valor)
 
-print(arvore.buscaMin().valor)
+print(arvore.buscaPonta(-1).valor)
 
 print(arvore.raiz.valor)
