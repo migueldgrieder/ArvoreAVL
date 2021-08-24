@@ -29,19 +29,16 @@ class ArvoreAVL(object): # Classe principal da arvore, que gerencia a operacao e
         else: 
             nodo = self.raiz
             if lado == -1: #lado como -1 sera o minimo valor(para esquerda)
-                while lado ==-1: 
+                while True: 
                     if nodo.esquerda:
                         nodo = nodo.esquerda              
                     else:
-                        lado == 0
                         return nodo # Por fim retorna o menor nodo
-
             if lado == 1: #lado como 1 sera o maior valor(para direita)
-                while lado == 1:
+                while True:
                     if nodo.direita:
                         nodo = nodo.direita
                     else:
-                        lado == 0
                         return nodo # Por fim retorna o maior nodo
 
     def tamanho(self,nodo): # Responsavel por retornar o tamanho de um nodo
