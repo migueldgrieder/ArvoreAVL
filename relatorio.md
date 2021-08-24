@@ -1,4 +1,8 @@
-NOME: MIGUEL DUARTE GRIEDER (20100862)
-NOME: OTÁVIO AUGUSTO DA SILVA PINHEIRO CASTRO (20100863)
+Relatório Trabalho 2 AVL em Dupla
 
+Nome: Otavio Augusto da Silva Pinheiro Castro
+Matrícula: 20100863
+
+Nome: Miguel Duarte Grieder
+Matrícula: 20100862
 
