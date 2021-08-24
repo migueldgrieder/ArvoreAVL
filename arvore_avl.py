@@ -8,19 +8,23 @@ class ArvoreAVL(object): # Classe principal da arvore, que gerencia a operacao e
 
 
 
-    def busca(self,valor): # Método recursivo, responsável pela busca de um nodo de fato
+    def busca(self,valor): # Método responsável pela busca de um nodo de fato
         if self.raiz is None:  #Verifica se a raiz da arvore e none
             return None
         else:
             nodo = self.raiz
-            if nodo is None: # Retorna none se nao encontrar o nodo desejado(chegar a uma ponta)
-                return None
-            elif valor < nodo.valor:
-                return self._busca(valor,self.esquerda)
-            elif valor > nodo.valor:
-                return self._busca(valor,self.direita)
-            else: 
-                return nodo # Por fim retorna o nodo com o elemento(valor) buscado, caso exista
+            tester = False
+            while tester == False:            
+                if nodo is None: # Retorna none se nao encontrar o nodo desejado(chegar a uma das pontas)
+                    tester = True
+                    return None
+                elif valor < nodo.valor:
+                    nodo = nodo.esquerda   
+                elif valor > nodo.valor:
+                    nodo = nodo.direita
+                else: 
+                    tester = True
+                    return nodo # Retorna o nodo com o elemento(valor) buscado, caso exista
 
     def buscaPonta(self, lado): # Realiza a busca pelo nodo com o menor ou maior valor na arvore
         if self.raiz is None:
