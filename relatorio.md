@@ -33,7 +33,7 @@ Arvore AVL(Figura):
 Após implementado o nodo, começa de fato a implementação da árvore AVL.
 Na árvore os primeiros métodos, sendo os mais básicos, que serviram tanto para checar a árvore como um tanto quanto para métodos principais como remoção, foram os primeiros a serem implementados.
 
-A busca pelo menor valor e maior valor: Conhecendo-se a lógica de posicionamento da árvore, a busca caso seja pelo menor, irá percorrer pelos caminhos a esquerda da árvore até que não haja mais algum para percorrer, e por fim entregará a informação desse nodo. Caso seja pela maior valor, o percorre será realizado pela direita, até que não haja mais como percorrer por tal.
+A busca pelo menor valor e maior valor: Conhecendo-se a lógica de posicionamento da árvore, a busca caso seja pelo menor, irá percorrer pelos caminhos a esquerda da árvore até que não haja mais algum para percorrer, e por fim entregará a informação desse nodo. Caso seja pela maior valor, o percorre será realizado pela direita, até que não haja mais como percorrer por tal. Ambos os lados são feitos pelo mesmo metodo, sendo definido o lado a percorrer ao chamar o metodo, infomando o atributo -1 para o lado esquerdo(menor número), e +1 para o lado direito(maior número).
 
 Lembrando de que o que buscamos nesse método é o menor e maior valor na árvore, e não o galho mais ao fundo da árvore
 Por exemplo:
@@ -43,7 +43,7 @@ Por exemplo:
        \
         4
 
-Também há a busca por um nodo específico, em que ocorrerá seguindo a mesma lógica dos anteriores, comparando o valor de cada nodo com o valor buscado, e caso seja menor irá para o caminho a esquerda, caso maior pelo da direita, e assim repetindo a comparação como um while, em que será parado quando o nodo for o procurado ou não haja nodo a se comparar, indicando a inexistencia do nodo buscado.
+Também há a busca por um nodo específico, em que ocorrerá seguindo a mesma lógica dos anteriores, comparando o valor de cada nodo com o valor buscado, e caso seja menor irá para o caminho a esquerda, caso maior pelo da direita, e assim repetindo a comparação com um while, em que será parado quando o nodo for o procurado ou não haja nodo a se comparar, indicando a inexistencia do nodo buscado.
 
 Inseridos os metodos de busca para a árvore, o próximo passo será as rotações, simples e duplas, em que balanceiam a árvore após a inserção e/ou remoção de nodos.
 

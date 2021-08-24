@@ -13,17 +13,14 @@ class ArvoreAVL(object): # Classe principal da arvore, que gerencia a operacao e
             return None
         else:
             nodo = self.raiz
-            tester = False
-            while tester == False:            
+            while True:            
                 if nodo is None: # Retorna none se nao encontrar o nodo desejado(chegar a uma das pontas)
-                    tester = True
                     return None
                 elif valor < nodo.valor:
                     nodo = nodo.esquerda   
                 elif valor > nodo.valor:
                     nodo = nodo.direita
                 else: 
-                    tester = True
                     return nodo # Retorna o nodo com o elemento(valor) buscado, caso exista
 
     def buscaPonta(self, lado): # Realiza a busca pelo nodo com o menor ou maior valor na arvore
